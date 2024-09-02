@@ -18,24 +18,32 @@ async def main():
         await bot.stop()
         print("Bot stopped.")
 
+async def stop_loop_after_cancellation(loop):
+    # Wait for all tasks to be cancelled
+    await asyncio.gather(*asyncio.all_tasks(loop=loop), return_exceptions=True)
+    loop.stop()
+
 def handle_sigterm(signum, frame):
     print("Received SIGTERM. Shutting down gracefully...")
     loop = asyncio.get_event_loop()
-    # Cancel all tasks and give them time to finish
+
+    # Cancel all tasks and schedule loop to stop after cancellation is done
     for task in asyncio.all_tasks(loop=loop):
         task.cancel()
 
-    # Allow the loop to finish processing
-    loop.call_soon_threadsafe(loop.stop)
+    asyncio.ensure_future(stop_loop_after_cancellation(loop))
 
 if __name__ == "__main__":
     loop = asyncio.get_event_loop()
+
     # Register signal handler for SIGTERM
     signal.signal(signal.SIGTERM, handle_sigterm)
 
     try:
         loop.run_until_complete(main())
+    except Exception as e:
+        print(f"Exception during loop: {e}")
     finally:
-        # Run any remaining tasks and close the loop
+        # Ensure all tasks are completed
         loop.run_until_complete(asyncio.gather(*asyncio.all_tasks(loop=loop), return_exceptions=True))
         loop.close()
