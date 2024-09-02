@@ -21,17 +21,21 @@ async def main():
 def handle_sigterm(signum, frame):
     print("Received SIGTERM. Shutting down gracefully...")
     loop = asyncio.get_event_loop()
-    # Cancel the ongoing loop to exit
+    # Cancel all tasks and give them time to finish
     for task in asyncio.all_tasks(loop=loop):
         task.cancel()
-    loop.stop()
 
-# Register signal handler for SIGTERM
-signal.signal(signal.SIGTERM, handle_sigterm)
+    # Allow the loop to finish processing
+    loop.call_soon_threadsafe(loop.stop)
 
 if __name__ == "__main__":
     loop = asyncio.get_event_loop()
+    # Register signal handler for SIGTERM
+    signal.signal(signal.SIGTERM, handle_sigterm)
+
     try:
         loop.run_until_complete(main())
     finally:
+        # Run any remaining tasks and close the loop
+        loop.run_until_complete(asyncio.gather(*asyncio.all_tasks(loop=loop), return_exceptions=True))
         loop.close()
