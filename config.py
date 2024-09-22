@@ -32,7 +32,7 @@ IS_VERIFY = os.environ.get("IS_VERIFY", "True")
 TUT_VID = os.environ.get("TUT_VID", "https://t.me/c/2242571831/14") 
 
 #Force sub channel id, if you want enable force sub
-FORCE_SUB_CHANNEL = int(os.environ.get("FORCE_SUB_CHANNEL", "-1002147381718"))
+FORCE_SUB_CHANNEL = int(os.environ.get("-1002147564011", "-1002224646126"))
 
 TG_BOT_WORKERS = int(os.environ.get("TG_BOT_WORKERS", "8"))
 
@@ -53,7 +53,7 @@ FORCE_MSG = os.environ.get("FORCE_SUB_MESSAGE", "<b>𝐻𝑒𝑙𝑙𝑜 {first}
 CUSTOM_CAPTION = os.environ.get("CUSTOM_CAPTION", "<b>• ʙʏ @codeflix_bots</b>")
 
 #Set True if you want to prevent users from forwarding files from bot
-PROTECT_CONTENT = True if os.environ.get('PROTECT_CONTENT', "False") == "True" else False
+PROTECT_CONTENT = True if os.environ.get('PROTECT_CONTENT', "True") == "True" else False
 
 #Set true if you want Disable your Channel Posts Share button
 DISABLE_CHANNEL_BUTTON = os.environ.get("DISABLE_CHANNEL_BUTTON", None) == 'True'
