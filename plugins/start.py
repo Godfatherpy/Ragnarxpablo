@@ -126,8 +126,8 @@ async def start_command(client: Client, message: Message):
                 except:
                     pass
 
-            SD = await message.reply_text("This file will be deleted in 5 minutes to avoid restrictions don't worry you can get the file again by clicking on the link you get redirected from earlier you can also forward and save the file in your save messages or personal channel")
-            await asyncio.sleep(300)
+            SD = await message.reply_text("This file will be deleted in 60 minutes to avoid restrictions don't worry you can get the file again by clicking on the link you get redirected from earlier you can also forward and save the file in your save messages or personal channel")
+            await asyncio.sleep(3600)
 
             for snt_msg in snt_msgs:
                 try:
@@ -139,7 +139,7 @@ async def start_command(client: Client, message: Message):
         elif verify_status['is_verified']:
             reply_markup = InlineKeyboardMarkup(
                 [[InlineKeyboardButton("⚡️ ᴀʙᴏᴜᴛ", callback_data = "about"),
-                  InlineKeyboardButton('🍁 HanielxBackup', url='https://t.me/hanielxbackup')]]
+                  InlineKeyboardButton('🍁 HanielxBackup', url='https://t.me/+Z_EfXsRX9I9kNjQ1')]]
             )
             await message.reply_text(
                 text=START_MSG.format(
